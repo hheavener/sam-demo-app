@@ -1,0 +1,24 @@
+{
+  "name": "sam-demo-app",
+  "version": "1.0.0",
+  "description": "sam-demo-app serverless application",
+  "scripts": {
+    "package": "src/cli_scripts/package.sh",
+    "deploy": "src/cli_scripts/deploy.sh",
+    "prewebpack": "rm -rf build",
+    "webpack": "webpack",
+    "buildDeploy": "run-s buildDeploy:*",
+    "buildDeploy:prewebpack": "rm -rf build",
+    "buildDeploy:webpack": "webpack",
+    "buildDeploy:package": "src/cli_scripts/package.sh",
+    "buildDeploy:deploy": "src/cli_scripts/deploy.sh"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0"
+  }
+}

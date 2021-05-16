@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: sam-demo-app serverless app
+
+Globals:
+    Function:
+        Runtime: nodejs14.x
+        Handler: index.handler
+        Timeout: 30
+        MemorySize: 128
+    Api:
+        Name: sam-demo-app_api
+        EndpointConfiguration: REGIONAL
+
+# TODO: Replace <ACCOUNT_ID> with your account id
+# TODO: Replace <ROLE> with a role defined in your account
+Resources:
+    EchoFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            FunctionName: sam-demo-app_echo
+            CodeUri: ../build/echo/
+            Description: Echoes back the AWS event received
+            
+            Role: arn:aws:iam::<ACCOUNT_ID>:role/<ROLE>
+            Events:
+                sam-demo-app_api:
+                    Type: Api
+                    Properties:
+                        Path: /echo
+                        Method: get
+    PingFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            FunctionName: sam-demo-app_ping
+            CodeUri: ../build/ping/
+            Description: Sends a 200 "success" if successful
+            Role: arn:aws:iam::<ACCOUNT_ID>:role/<ROLE>
+            Events:
+                sam-demo-app_api:
+                    Type: Api
+                    Properties:
+                        Path: /test-ping
+                        Method: get
+
+Outputs:
+    sam-demo-app_api:
+        Description: "API Gateway URL for sam-demo-app"
+        Value:
+            Fn::Sub: "https:.execute-api..amazonaws.com/"
+
+    EchoFunction:
+        Description: "Echo Lambda Function ARN"
+        Value:
+            Fn::GetAtt: EchoFunction.Arn
+
+    EchoFunctionEndpoint:
+        Description: "Echo Lambda Function Endpoint"
+        Value:
+            Fn::Sub: "https:.execute-api..amazonaws.com/{stage}/echo"
+
+    PingFunction:
+        Description: "Ping Lambda Function ARN"
+        Value:
+            Fn::GetAtt: PingFunction.Arn
+
+    PingFunctionEndpoint:
+        Description: "Ping Lambda Function Endpoint"
+        Value:
+            Fn::Sub: "https:.execute-api..amazonaws.com/{stage}/test-ping"
