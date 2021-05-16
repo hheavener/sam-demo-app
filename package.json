@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "description": "sam-demo-app serverless application",
   "scripts": {
-    "package": "src/cli_scripts/package.sh",
-    "deploy": "src/cli_scripts/deploy.sh",
+    "package": "cli_scripts/package.sh",
+    "deploy": "cli_scripts/deploy.sh",
     "prewebpack": "rm -rf build",
     "webpack": "webpack",
     "buildDeploy": "run-s buildDeploy:*",
     "buildDeploy:prewebpack": "rm -rf build",
     "buildDeploy:webpack": "webpack",
-    "buildDeploy:package": "src/cli_scripts/package.sh",
-    "buildDeploy:deploy": "src/cli_scripts/deploy.sh"
+    "buildDeploy:package": "cli_scripts/package.sh",
+    "buildDeploy:deploy": "cli_scripts/deploy.sh"
   },
   "keywords": [],
   "author": "",
